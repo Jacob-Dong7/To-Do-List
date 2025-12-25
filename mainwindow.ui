@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLabel" name="label">
@@ -98,7 +98,7 @@
       </widget>
       <widget class="QListView" name="listView_2"/>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>390</x>
@@ -172,7 +172,7 @@
       <property name="title">
        <string/>
       </property>
-      <widget class="QTextEdit" name="textEdit_3">
+      <widget class="QTextEdit" name="txtTitle">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -202,7 +202,7 @@
         <string>Description (Optional)</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_2">
+      <widget class="QTextEdit" name="txtDescription">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -212,7 +212,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="cmbCategory">
        <property name="geometry">
         <rect>
          <x>720</x>
@@ -221,16 +221,6 @@
          <height>26</height>
         </rect>
        </property>
-       <item>
-        <property name="text">
-         <string>Work</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>New Item</string>
-        </property>
-       </item>
       </widget>
       <widget class="QSplitter" name="splitter_4">
        <property name="geometry">
@@ -272,6 +262,56 @@
         </property>
        </widget>
       </widget>
+      <widget class="QPushButton" name="btnNew">
+       <property name="geometry">
+        <rect>
+         <x>1010</x>
+         <y>70</y>
+         <width>201</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial Rounded MT</family>
+         <pointsize>9</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Add New Category</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnSaveC">
+       <property name="geometry">
+        <rect>
+         <x>720</x>
+         <y>110</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial Rounded MT</family>
+         <pointsize>9</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="txtNewCategory">
+       <property name="geometry">
+        <rect>
+         <x>720</x>
+         <y>70</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QSplitter" name="splitter_3">
       <property name="geometry">
@@ -285,7 +325,7 @@
       <property name="orientation">
        <enum>Qt::Orientation::Vertical</enum>
       </property>
-      <widget class="QPushButton" name="btnAddTasks_2">
+      <widget class="QPushButton" name="btnSave">
        <property name="font">
         <font>
          <family>Arial Rounded MT</family>
@@ -358,12 +398,12 @@
          <string>Due Date &amp; Time</string>
         </property>
        </widget>
-       <widget class="QDateTimeEdit" name="dateTimeEdit">
+       <widget class="QDateEdit" name="dteDate">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>80</y>
-          <width>371</width>
+          <width>581</width>
           <height>51</height>
          </rect>
         </property>
@@ -393,7 +433,7 @@
          <string>Priority</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -404,7 +444,7 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="rbLow">
            <property name="font">
             <font>
              <family>Arial Rounded MT</family>
@@ -418,7 +458,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="rbMed">
            <property name="font">
             <font>
              <family>Arial Rounded MT</family>
@@ -432,7 +472,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButton_3">
+          <widget class="QRadioButton" name="rbHigh">
            <property name="font">
             <font>
              <family>Arial Rounded MT</family>
