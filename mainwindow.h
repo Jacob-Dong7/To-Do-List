@@ -4,7 +4,9 @@
 #include <string>
 #include <sqlite3.h>
 #include <QComboBox>
-
+#include <QListView>
+#include <QTableView>
+#include <QStandardItemModel>
 #include "createtask.h"
 
 namespace Ui {
@@ -22,6 +24,11 @@ class MainWindow : public QMainWindow{
     QString datex;
     Create createTask;
     sqlite3* db;
+    QStandardItemModel* model;
+    void loadData();
+    void resetTaskCreation();
+    void resetTaskCompletion();
+
     char* errorMSG;
     void populateCategory(QComboBox*);
 
@@ -30,5 +37,11 @@ class MainWindow : public QMainWindow{
     void on_btnSave_clicked();
     void on_btnNew_clicked();
     void on_btnSaveC_clicked();
+    void on_btnClearTask_clicked();
+    void on_btnReturnNewTask_clicked();
+    void on_btnTaskList_clicked();
+    void on_btnReturnTaskList_clicked();
+    void on_btnComplete_clicked();
+    void on_btnDeleteTask_clicked();
 };
 #endif
