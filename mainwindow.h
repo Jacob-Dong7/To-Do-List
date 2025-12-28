@@ -7,6 +7,7 @@
 #include <QListView>
 #include <QTableView>
 #include <QStandardItemModel>
+#include <filter.h>
 #include "createtask.h"
 
 namespace Ui {
@@ -19,18 +20,21 @@ class MainWindow : public QMainWindow{
     explicit MainWindow(sqlite3* database, QWidget *parent = nullptr);
 
     private:
+    QString filterData;
     Ui::MainWindow *ui;
     std::string title, description, category, date, time, priority;
     QString datex;
     Create createTask;
     sqlite3* db;
     QStandardItemModel* model;
+    QStandardItemModel* modelTaskList;
     void loadData();
+    void loadTaskList();
     void resetTaskCreation();
     void resetTaskCompletion();
-
-    char* errorMSG;
     void populateCategory(QComboBox*);
+    void populateFilter(QComboBox*, std::string);
+    char* errorMSG;
 
     private slots:
     void on_btnAddTasks_clicked();
@@ -43,5 +47,10 @@ class MainWindow : public QMainWindow{
     void on_btnReturnTaskList_clicked();
     void on_btnComplete_clicked();
     void on_btnDeleteTask_clicked();
+    void on_btnAddTaskTL_clicked();
+    void on_btnReset_clicked();
+    void on_btnConfirmFilter_clicked();
+    void on_rbCategory_clicked();
+    void on_rbPriority_clicked();
 };
 #endif

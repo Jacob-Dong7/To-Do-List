@@ -7,6 +7,7 @@
 #include <sqlite3.h>
 #include <QTableView>
 #include <QStandardItemModel>
+#include <filter.h>
 #include <QPushButton>
 
 #include "createtask.h"
@@ -14,7 +15,7 @@
 #include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(sqlite3* database, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), db(database), model(new QStandardItemModel(this)) {
+MainWindow::MainWindow(sqlite3* database, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), db(database), model(new QStandardItemModel(this)), modelTaskList((new QStandardItemModel)) {
     ui->setupUi(this);
     resetTaskCompletion();
 
@@ -24,11 +25,12 @@ MainWindow::MainWindow(sqlite3* database, QWidget *parent) : QMainWindow(parent)
     populateCategory(ui->cmbCategory);
     ui->dteDate->setMinimumDate(QDate::currentDate());
 
-    loadData();
-    ui->tbvTaskList->setModel(model);
+    ui->tbvTaskList->setModel(modelTaskList);
     ui->tbvTaskList->setSelectionBehavior(QAbstractItemView::SelectRows);
+
     ui->tbvCurrTask->setModel(model);
     ui->tbvCurrTask->setSelectionBehavior(QAbstractItemView::SelectRows);
+    loadData();
 }
 
 //function that will load in the user tasks into the table view box at the main menu
@@ -178,9 +180,40 @@ void MainWindow::on_btnReturnNewTask_clicked() {
     return;
 }
 
+void MainWindow::loadTaskList() {
+    modelTaskList->clear();
+    sqlite3_stmt* stmt = nullptr;
+    const char* sql = "SELECT TaskID, Task_Title, Category, Description, Due_Date, Priority FROM task;";
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        return;
+    }
+    int cols = sqlite3_column_count(stmt);
+    modelTaskList->setColumnCount(cols);
+
+    QStringList header = {"ID", "Task Name", "Category", "Description", "Due Date", "Priority"};
+    modelTaskList->setHorizontalHeaderLabels(header);
+
+    int row = 0;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        modelTaskList->insertRow(row);
+        for (int i = 0; i < cols; ++i) {
+            const char* data =reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
+            modelTaskList->setItem(
+                row,
+                i,
+                new QStandardItem(data ? data : "")
+            );
+        }
+        ++row;
+    }
+
+    sqlite3_finalize(stmt);
+    
+}
+
 void MainWindow::on_btnTaskList_clicked() {
     ui->stackedWidget->setCurrentIndex(2);
-    
+    loadTaskList();
 }
 
 void MainWindow::on_btnReturnTaskList_clicked() {
@@ -219,4 +252,100 @@ void MainWindow::on_btnDeleteTask_clicked() {
     sqlite3_exec(db, sql.c_str(), NULL, 0, NULL);
     loadData();
     resetTaskCompletion();
+}
+
+void MainWindow::on_btnAddTaskTL_clicked() {
+    resetTaskCompletion();
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_btnReset_clicked() {
+    loadData();
+    resetTaskCompletion();
+    loadTaskList();
+}
+
+void MainWindow::on_rbCategory_clicked() {
+    populateFilter(ui->cmbFilter, "Category");
+}
+
+void MainWindow::on_rbPriority_clicked() {
+    populateFilter(ui->cmbFilter, "Priority");
+}
+
+void MainWindow::populateFilter(QComboBox* cmbFilter, std::string filter) {
+    cmbFilter->clear();
+    const char* sql;
+     QStringList List = {"Low", "Medium", "High"};
+    if (filter == "Category") {
+        sql = "SELECT category from Category;";
+    } else if (filter == "Priority") {
+        cmbFilter->insertItems(
+            0,
+            List
+        );
+        return;
+    }
+
+    sqlite3_stmt* stmt = nullptr;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        return;
+    }
+
+    int colCount = sqlite3_column_count(stmt);
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        for (int i = 0; i < colCount; ++i) {
+            const char* text = reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
+            cmbFilter->insertItem(
+                i,
+                text
+            );
+        }
+    }
+    sqlite3_finalize(stmt);
+}
+
+void MainWindow::on_btnConfirmFilter_clicked() {
+    modelTaskList->clear();
+    std::string sql;
+    sqlite3_stmt* stmt = nullptr;
+    if (ui->rbCategory->isChecked()) {
+        std::string filter = ui->cmbFilter->currentText().toStdString();
+        sql = "SELECT TaskID, Task_Title, Category, Description, Due_Date, Priority FROM task WHERE category = '" + filter + "';";
+    } else if (ui->rbPriority->isChecked()) {
+        std::string filter = ui->cmbFilter->currentText().toStdString();
+        sql = "SELECT TaskID, Task_Title, Category, Description, Due_Date, Priority FROM task WHERE priority = '" + filter + "';";
+    }
+
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        return;
+    }
+
+    //header
+    QStringList header = {"ID", "Task Name", "Category", "Description", "Due Date", "Priority"};
+    modelTaskList->setHorizontalHeaderLabels(
+        header
+    );
+
+    int cols = sqlite3_column_count(stmt);
+    modelTaskList->setColumnCount(cols);
+
+    //rows
+    int row = 0;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        modelTaskList->insertRow(row);
+        for (int i = 0; i < cols; ++i) {
+            const char* data = reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
+            modelTaskList->setItem(
+                row,
+                i,
+                new QStandardItem(data ? data : "")
+            );
+        }
+        ++row;
+    }
+
+    sqlite3_finalize(stmt);
+
+    return;
 }
