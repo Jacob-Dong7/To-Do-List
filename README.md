@@ -18,6 +18,7 @@ Key features include:
   <li>✔️ Tick off tasks when completed</li>
   <li>✔️ Automatic removal of completed tasks</li>
   <li>✔️ Simple, fast, and beginner-friendly interface</li>
+  <li>✔️ Quick filering</li>
 </ul>
 
 <hr/>
@@ -29,6 +30,8 @@ Key features include:
   <li><b>PowerShell</b></li>
   <li><b>Qt (Qt Widgets, Qt Designer)</b></li>
   <li><b>Visual Studio Code</b></li>
+  <li><b>SQLite Studio</b></li>
+  <li><b>SQL3</b></li>
 </ul>
 
 <hr/>
