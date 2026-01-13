@@ -1,24 +1,25 @@
-<h1 align="center">📱 To-Do List Application</h1>
+<h1 align="center">📘 StudyFlow</h1>
 
 <p align="center">
-A clean, minimalistic task manager.
+A clean, modern study planner.
 <br/>
-Users can add tasks, check them off, and automatically remove completed items for a efficent and clean experience.
+Students can organise courses, track assignments, and manage deadlines for an efficient and focused study experience.
 </p>
 
 <hr/>
 
 <h2>📝 Description</h2>
-A lightweight and intuitive To-Do List application that helps users stay organised throughout the day.  
-The interface focuses on clarity and ease of use — simply create a task and mark it as complete.  
+A lightweight and intuitive study planner that helps students stay organised throughout the semester.  
+The interface focuses on clarity and ease of use — simply add subjects, create assignments, and track progress.  
 
 Key features include:
 <ul>
-  <li>✔️ Add new tasks with a single action</li>
-  <li>✔️ Tick off tasks when completed</li>
-  <li>✔️ Automatic removal of completed tasks</li>
+  <li>✔️ Add and manage courses or subjects</li>
+  <li>✔️ Create assignments, deadlines, and study tasks</li>
+  <li>✔️ Mark tasks as completed</li>
+  <li>✔️ Persistent data storage using SQLite</li>
   <li>✔️ Simple, fast, and beginner-friendly interface</li>
-  <li>✔️ Quick filering</li>
+  <li>✔️ Quick filtering by course, status, or due date</li>
 </ul>
 
 <hr/>
@@ -26,12 +27,13 @@ Key features include:
 <h2>🛠️ Languages and Tools Used</h2>
 
 <ul>
+  <li><b>HTML</b></li>
+  <li><b>CSS</b></li>
   <li><b>C++</b></li>
-  <li><b>PowerShell</b></li>
-  <li><b>Qt (Qt Widgets, Qt Designer)</b></li>
+  <li><b>SQLite</b></li>
   <li><b>Visual Studio Code</b></li>
   <li><b>SQLite Studio</b></li>
-  <li><b>SQL3</b></li>
+  <li><b>PowerShell</b></li>
 </ul>
 
 <hr/>
@@ -45,4 +47,3 @@ Key features include:
 
 <h2>📄 License</h2>
 <p>This project is free to use and modify.</p>
-
